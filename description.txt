@@ -1,17 +1,18 @@
-English version:
-
-SkillSwap is a great chatbot for exchanging skills between users.
-If one doesn't know how to do something, and the other one knows how to do it, but doesn't know how to do what the first one does,
-then they can exchange skills between themselves :)
-
 Русская версия:
 
-SkillSwap - это отличный чат-бот для обмена навыками между пользователями.
-Если один не умеет что-то, а другой умеет это, но не умеет то, что умеет первый,
-то они могут обменяться навыками между собой :)
+SkillSwap — это динамичный чат-бот, созданный на Python с использованием различных библиотек,
+включая aiogram. Он предназначен для обмена навыками между пользователями:
+один человек может научить тому, чего не умеет другой,
+и наоборот, что способствует развитию сообщества и взаимному обучению.
+
+English version:
+
+SkillSwap is a dynamic chatbot built using Python and several libraries,
+including aiogram, designed for users to exchange skills.
+The bot connects people who want to learn something with those who can teach it,
+fostering a community of mutual growth and knowledge sharing.
 
 中文版:
 
-SkillSwap 是一个很棒的聊天机器人，用于在用户之间分享技能。
-如果一个人不知道如何做某事，而另一个人知道如何做，但不知道如何做第一个人能做的事情，
-然后他们可以互相交流技能:)
+SkillSwap 是一个基于 Python 和多种库（包括 aiogram）的智能聊天机器人，
+旨在帮助用户之间进行技能交换。用户可以通过该平台找到能够互相补充技能的伙伴，从而实现共同成长和知识共享。
