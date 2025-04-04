@@ -1,0 +1,17 @@
+English version:
+
+SkillSwap is a great chatbot for exchanging skills between users.
+If one doesn't know how to do something, and the other one knows how to do it, but doesn't know how to do what the first one does,
+then they can exchange skills between themselves :)
+
+Русская версия:
+
+SkillSwap - это отличный чат-бот для обмена навыками между пользователями.
+Если один не умеет что-то, а другой умеет это, но не умеет то, что умеет первый,
+то они могут обменяться навыками между собой :)
+
+中文版:
+
+SkillSwap 是一个很棒的聊天机器人，用于在用户之间分享技能。
+如果一个人不知道如何做某事，而另一个人知道如何做，但不知道如何做第一个人能做的事情，
+然后他们可以互相交流技能:)
