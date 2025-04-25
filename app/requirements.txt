@@ -1,1 +1,2 @@
-
+dotenv==0.9.9
+aiogram==3.20.0.post0
