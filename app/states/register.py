@@ -1,9 +1,9 @@
-from aiogram.fsm.state import State, StatesGroup
+from aiogram.fsm.state import StatesGroup, State
 
 class RegisterState(StatesGroup):
+    language = State()
     name = State()
     bio = State()
-    language = State()
     experience = State()
     skills_to_teach = State()
     skills_to_learn = State()
