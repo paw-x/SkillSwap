@@ -1,10 +1,24 @@
 import sqlite3
 from datetime import datetime
+import os
+from pathlib import Path
+from dotenv import load_dotenv
 from typing import Optional, List, Dict
 
 
+load_dotenv()
+
+ADMIN_ID_FIRST = int(os.getenv("ADMIN_ID_FIRST"))
+ADMIN_ID_SECOND = int(os.getenv("ADMIN_ID_SECOND"))
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent  # app/database -> app/
+DB_PATH = os.path.join(BASE_DIR, "database", "skillswap.db")
+
+
 def init_db():
-    conn = sqlite3.connect("skillswap.db")
+    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
+    conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
     cur.execute("""
@@ -73,7 +87,7 @@ def init_db():
 class DBManager:
     @staticmethod
     def _get_connection():
-        return sqlite3.connect("skillswap.db")
+        return sqlite3.connect(DB_PATH)
 
     # User methods
     @staticmethod
@@ -184,6 +198,57 @@ class DBManager:
                 VALUES (?, ?, ?)
             """, (user1_id, user2_id, skill_id))
             return cur.lastrowid
+
+    @staticmethod
+    def find_mentors(current_user_tg_id: int) -> List[Dict]:
+        with DBManager._get_connection() as conn:
+            cur = conn.cursor()
+            current_user = DBManager.get_user(current_user_tg_id)
+            if not current_user:
+                return []
+
+            # Получаем навыки пользователя
+            cur.execute("""
+                SELECT s.name, us.type 
+                FROM user_skills us
+                JOIN skills s ON us.skill_id = s.id 
+                WHERE us.user_id = ?
+            """, (current_user['id'],))
+
+            skill_data = cur.fetchall()
+            teach_skills = [row[0] for row in skill_data if row[1] == 'teach']
+            learn_skills = [row[0] for row in skill_data if row[1] == 'learn']
+
+            if not teach_skills or not learn_skills:
+                return []
+
+            # Формируем безопасный запрос
+            teach_placeholders = ','.join(['?'] * len(teach_skills))
+            learn_placeholders = ','.join(['?'] * len(learn_skills))
+
+            query = f"""
+                SELECT DISTINCT u.* 
+                FROM users u
+                INNER JOIN user_skills us_teach 
+                    ON u.id = us_teach.user_id 
+                    AND us_teach.type = 'teach'
+                INNER JOIN skills s_teach 
+                    ON us_teach.skill_id = s_teach.id 
+                    AND s_teach.name IN ({teach_placeholders})
+                INNER JOIN user_skills us_learn 
+                    ON u.id = us_learn.user_id 
+                    AND us_learn.type = 'learn'
+                INNER JOIN skills s_learn 
+                    ON us_learn.skill_id = s_learn.id 
+                    AND s_learn.name IN ({learn_placeholders})
+                WHERE u.id != ?
+            """
+
+            params = teach_skills + learn_skills + [current_user['id']]
+            cur.execute(query, params)
+
+            columns = [desc[0] for desc in cur.description]
+            return [dict(zip(columns, row)) for row in cur.fetchall()]
 
 
 if __name__ == "__main__":

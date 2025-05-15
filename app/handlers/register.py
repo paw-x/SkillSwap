@@ -83,6 +83,10 @@ async def register_learn(message: Message, state: FSMContext):
         language=data["language"],
         experience_level=data["experience"]
     )
+    if not user_id:
+        await message.answer(translations[lang]["registration_failed"])
+        await state.clear()
+        return
 
     for skill in data["skills_to_teach"].split(","):
         db.DBManager.link_user_skill(
@@ -99,3 +103,7 @@ async def register_learn(message: Message, state: FSMContext):
 
     await message.answer(translations[lang]["registration_complete"])
     await state.clear()
+    await message.answer(
+        translations[lang]["registration_complete"],
+        reply_markup=kb.get_main_menu()  # Добавьте эту строку
+    )

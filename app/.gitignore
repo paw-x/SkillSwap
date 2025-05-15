@@ -1,1 +1,14 @@
+# Python
 .env
+__pycache__/
+*.py[cod]
+*.venv
+venv/
+ENV/
+env.bak/
+*.env
+
+# PyCharm
+.idea/
+*.iml
+*.ipr
